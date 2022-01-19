@@ -4902,10 +4902,9 @@ open@^6.2.0:
   dependencies:
     is-wsl "^1.1.0"
 
-openlogin-react-native-sdk@^0.1.0:
+"openlogin-react-native-sdk@github:torusresearch/openlogin-react-native-sdk#9240b9882":
   version "0.1.0"
-  resolved "https://registry.yarnpkg.com/openlogin-react-native-sdk/-/openlogin-react-native-sdk-0.1.0.tgz#fc646fa4a8fde96368b38d321f77f91abfe669cd"
-  integrity sha512-yyIZCp8ydBIlRZjYVW2GBJ6a1i3VU/C6HPPVnEkj4XA9JVcsP6FVlHehIdt+7VXjBiXQ0E6p/PTG905k5onZuQ==
+  resolved "https://codeload.github.com/torusresearch/openlogin-react-native-sdk/tar.gz/9240b9882d79d2c188a72347355e656b3b60a76d"
 
 optionator@^0.8.1:
   version "0.8.3"
