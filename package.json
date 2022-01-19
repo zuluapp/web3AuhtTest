@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "openlogin-react-native-sdk": "^0.1.0",
+    "openlogin-react-native-sdk": "github:torusresearch/openlogin-react-native-sdk#9240b9882",
     "react": "17.0.2",
     "react-native": "0.66.4"
   },
