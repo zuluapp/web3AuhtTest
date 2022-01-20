@@ -1,112 +1,74 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import * as React from 'react';
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {StyleSheet, View, Text, Button} from 'react-native';
+import OpenloginReactNativeSdk, {
+  LoginProvider,
+  OpenloginNetwork,
+} from 'openlogin-react-native-sdk';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+export default function App() {
+  const [authState, setAuthState] = React.useState({});
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+  React.useEffect(() => {
+    OpenloginReactNativeSdk.addOpenloginAuthStateChangedEventListener(state => {
+      console.log(state);
+      setAuthState(state);
+    });
+    OpenloginReactNativeSdk.init({
+      clientId:
+        'BB8yp84sQY7jSMxcvR0B8UGWMd-474_njAr5fgtZmGep7p2y-a0gunM2_IGYf-4ZegFFa4_0IX_dpCLcxoNjjb8',
+      network: OpenloginNetwork.TESTNET,
+      redirectUrl: 'com.web3auhttest://auth',
+    })
+      .then(result => console.log(`success: ${result}`))
+      .catch(err => console.log(`error: ${err}`));
+  }, []);
+
+  // React.useEffect(() => {
+  //   // OpenloginReactNativeSdk.multiply(3, 7).then(setResult);
+  // }, []);
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
+    <View style={styles.container}>
+      <Button
+        title="Login"
+        onPress={() =>
+          OpenloginReactNativeSdk.login({
+            provider: LoginProvider.GOOGLE,
+          })
+            .then(result => console.log(`success: ${result}`))
+            .catch(err => console.log(`error: ${err}`))
+        }
+      />
+      <Button
+        title="Logout"
+        onPress={() =>
+          OpenloginReactNativeSdk.logout({
+            provider: LoginProvider.GOOGLE,
+          })
+            .then(result => console.log(`success: ${result}`))
+            .catch(err => console.log(`error: ${err}`))
+        }
+      />
+      <Text style={styles.authStateText}>
+        Result: {JSON.stringify(authState)}
       </Text>
     </View>
   );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
+}
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  box: {
+    width: 60,
+    height: 60,
+    marginVertical: 20,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  authStateText: {
+    color: 'white',
   },
 });
-
-export default App;
